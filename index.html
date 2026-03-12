@@ -1,0 +1,409 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEEE RAS x IAS Hackathon 2026</title>
+
+    <style>
+        /* 1. LIGHT MODE VARIABLES (Default) */
+        :root {
+            --bg-main: #f8fafc; 
+            --bg-card: #ffffff; 
+            --text-main: #0f172a; 
+            --text-muted: #64748b;
+            --ieee-primary: #00629B; /* Standard IEEE Blue */
+            --ieee-accent: #0ea5e9; /* Light blue accent */
+            --ieee-gold: #f59e0b;
+            --card-border: #e2e8f0;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --header-overlay: rgba(0, 0, 0, 0.4);
+            --footer-bg: #ffffff;
+        }
+
+        /* 2. DARK MODE VARIABLES (Activated by JS) */
+        body.dark-mode {
+            --bg-main: #0b0f19; 
+            --bg-card: #151b2b; 
+            --text-main: #e2e8f0; 
+            --text-muted: #94a3b8;
+            --ieee-primary: #00f0ff; /* Neon Blue */
+            --ieee-accent: #00f0ff; 
+            --ieee-gold: #ffcc00; /* Neon Gold */
+            --card-border: rgba(0, 240, 255, 0.2);
+            --card-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+            --header-overlay: rgba(0, 0, 0, 0.6);
+            --footer-bg: #05080f;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Hero Section */
+        header {
+            position: relative;
+            min-height: 70vh; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 4px solid var(--ieee-accent);
+            overflow: hidden; 
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            z-index: 0;
+            pointer-events: none; 
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--header-overlay); 
+            z-index: 1;
+            transition: background 0.3s ease;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            
+            /* The Mint to Lime Gradient */
+            background: linear-gradient(90deg, #4ef0c6 0%, #c2e535 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            /* Subtle shadow so it still pops against the video */
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.6));
+        }
+        header p {
+            font-size: 1.25rem;
+            color: #f8fafc;
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        header button {
+            background-color: var(--ieee-gold);
+            color: #000;
+            border: none;
+            padding: 16px 36px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px; 
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        header button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--ieee-gold);
+        }
+
+        /* Sections General Styling */
+        section {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h2 {
+            color: var(--ieee-primary);
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        /* Tracks Cards */
+        #tracks ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+
+        #tracks li {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 16px;
+            flex: 1;
+            min-width: 250px;
+            box-shadow: var(--card-shadow);
+            border-top: 4px solid var(--ieee-accent);
+            border-left: 1px solid var(--card-border);
+            border-right: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+        }
+
+        #tracks li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-top-color: var(--ieee-gold);
+        }
+
+        #tracks strong {
+            color: var(--ieee-primary);
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* FAQ Accordion */
+        .faq-item {
+            margin-bottom: 16px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            transition: background 0.3s ease, border 0.3s ease;
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 20px;
+            background: transparent;
+            color: var(--text-main);
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.2s;
+        }
+
+        .faq-question:hover {
+            color: var(--ieee-accent);
+        }
+
+        .faq-question::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-right: 3px solid var(--text-muted);
+            border-bottom: 3px solid var(--text-muted);
+            transform: rotate(45deg);
+            transition: transform 0.3s ease, border-color 0.3s;
+        }
+
+        .faq-question.active::after {
+            transform: rotate(-135deg);
+            border-color: var(--ieee-accent);
+        }
+
+        .faq-answer {
+            padding: 0 20px 20px 20px;
+            display: none;
+            color: var(--text-muted);
+        }
+
+        .faq-answer ul {
+            padding-left: 20px;
+        }
+
+        /* Floating Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--text-main);
+            color: var(--bg-main);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--footer-bg);
+            color: var(--text-muted);
+            border-top: 1px solid var(--card-border);
+            margin-top: 40px;
+            transition: background 0.3s ease;
+        }
+
+        footer a {
+            color: var(--ieee-accent);
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+        /* Floating Developer Credit */
+        .developer-credit {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--bg-card);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            z-index: 1000;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .developer-credit:hover {
+            color: var(--ieee-accent);
+            border-color: var(--ieee-accent);
+        }
+    </style>
+</head>
+<body>
+
+    <header id="hero">
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="https://ieee-org.widen.net/content/vt8e8satxm/mp4/ieee-circuitboard-smart-tech-video.mp4?quality=hd&u=xiat9t" type="video/mp4">
+        </video>
+        
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <h1>IEEE RAS x IAS Hackathon 2026</h1>
+            <p>Innovating the Future of Automation</p>
+            <p><strong>Date:</strong> October 15-16, 2026</p>
+            <button>Register Now</button>
+        </div>
+    </header>
+
+    <section id="about">
+        <h2>About the Event</h2>
+        <p>The IEEE RAS x IAS Hackathon is a premier 2-day event focused on solving real-world challenges in robotics and industrial applications. It brings together the brightest minds to build, design, and deploy innovative solutions.</p>
+    </section>
+
+    <section id="tracks">
+        <h2>Hackathon Tracks</h2>
+        <ul>
+            <li><strong>Smart Automation</strong> Building systems that think for themselves and optimize industrial workflows.</li>
+            <li><strong>Human-Robot Interaction</strong> Designing the intuitive and seamless interfaces of tomorrow.</li>
+            <li><strong>Industrial IoT</strong> Connecting the smart factories of the future through robust networks.</li>
+        </ul>
+    </section>
+
+    <section id="schedule">
+        <h2>Event Schedule</h2>
+        <p><strong>Day 1:</strong> Opening Ceremony & Hacking Begins</p>
+        <p><strong>Day 2:</strong> Final Submissions & Award Ceremony</p>
+    </section>
+
+    <section id="faq">
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+            <button class="faq-question">Who can participate?</button>
+            <div class="faq-answer">
+                <p>All interested students at MITS can participate, regardless of their specific academic branch or year!</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">Is there a registration fee?</button>
+            <div class="faq-answer">
+                <p>Yes, there is a nominal registration fee based on your team size:</p>
+                <ul>
+                    <li><strong>Individual:</strong> ₹50</li>
+                    <li><strong>Team of 2:</strong> ₹80</li>
+                    <li><strong>Team of 3:</strong> ₹120</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">What is the team size?</button>
+            <div class="faq-answer">
+                <p>You have the flexibility to compete however you work best! You can participate as a solo hacker, or form a team of two or three members.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>IEEE Robotics & Automation Society x Industry Applications Society</p>
+        <a href="https://www.linkedin.com/company/ieee-ras-student-branch-mits/about/" target="_blank">LinkedIn</a> | 
+        <a href="https://www.instagram.com/ieee_sb_mits_du/#" target="_blank">Instagram</a>
+    </footer>
+<div class="developer-credit">
+        Developed by Karan Patel | BTMC25O1057 | Mathematics & Computing
+    </div>
+    <button id="themeToggle" class="theme-toggle">🌙 Dark Mode</button>
+
+    <script>
+        // FAQ Accordion Logic
+        const faqButtons = document.querySelectorAll('.faq-question');
+        faqButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                button.classList.toggle('active');
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                } else {
+                    answer.style.display = 'block';
+                }
+            });
+        });
+
+        // Dark Mode Toggle Logic
+        const themeToggleBtn = document.getElementById('themeToggle');
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            // Change button text based on current mode
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggleBtn.textContent = '☀️ Light Mode';
+            } else {
+                themeToggleBtn.textContent = '🌙 Dark Mode';
+            }
+        });
+    </script>
+</body>
+</html>
